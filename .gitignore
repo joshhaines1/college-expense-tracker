@@ -1,0 +1,24 @@
+# Secrets and credentials — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+client_secret*.json
+token*.json
+credentials*.json
+
+# Runtime state and receipts
+data/
+tmp/
+uploads/
+*.corrupt-*
+
+# Build output / deps
+node_modules/
+dist/
+coverage/
+*.log
+.DS_Store
+.vscode/
+.idea/

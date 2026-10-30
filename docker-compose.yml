@@ -1,0 +1,40 @@
+# Only nginx is published, and only on the host's loopback. Express (backend) has no published port and is
+# reachable solely over the compose network. Tailscale Serve (running on the host) fronts 127.0.0.1:8080 with HTTPS.
+services:
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    env_file: .env # secrets live only here (chmod 600), never in the image or in Git
+    environment:
+      DATA_DIR: /data
+      PORT: "3001"
+    volumes:
+      - receipt_state:/data
+    expose:
+      - "3001"
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+
+  web:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8080:8080"
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  receipt_state:

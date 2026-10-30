@@ -1,0 +1,40 @@
+{
+  "name": "college-expenses-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "main": "dist/server.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "auth": "tsx src/scripts/auth.ts",
+    "setup:folder": "tsx src/scripts/create-folder.ts",
+    "check-sheet": "tsx src/scripts/check-sheet.ts"
+  },
+  "dependencies": {
+    "@tesseract.js-data/eng": "^1.0.0",
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.2",
+    "googleapis": "^178.0.0",
+    "helmet": "^8.3.0",
+    "multer": "^2.5.0",
+    "sharp": "^0.35.5",
+    "tesseract.js": "^7.0.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/multer": "^2.3.0",
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.12"
+  }
+}
