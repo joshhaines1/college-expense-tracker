@@ -76,9 +76,14 @@ Do this on your Mac, in a browser signed into the Google account that owns the s
 3. **OAuth consent screen** (APIs & Services → OAuth consent screen / Google Auth Platform):
    - User type **External**; app name e.g. "College Expense Tracker"; your email as support/developer contact.
    - Add scopes: `.../auth/spreadsheets` and `.../auth/drive.file`.
-   - Branding: Google requires an **app homepage URL** and a **privacy policy URL** to publish an External app
-     (terms of use and logo are optional; skip the logo). Any public URL works, e.g. the repo page and a link to
-     the *Privacy policy* section (13) below. Google does not review these for unverified personal apps.
+   - Branding: Google requires an **app homepage URL** and a **privacy policy URL** to publish an External app,
+     and checks that you own their domain (a `github.com` repo URL fails). Terms of use and logo are optional;
+     skip the logo. Free route: enable GitHub Pages (repo Settings → Pages → deploy from branch `main`, folder
+     `/docs`), then use `https://<user>.github.io/<repo>/` (homepage) and `.../privacy.html` (privacy policy)
+     from [docs/](docs/). Verify that URL prefix in [Search Console](https://search.google.com/search-console)
+     (URL-prefix property, HTML-file method: put the downloaded `google….html` file in `docs/`, push, verify)
+     with the same Google account, add `github.io` under Authorized domains if asked, and allow up to 24 hours.
+     If Google rejects `github.io`, use a domain you own, or stay in Testing and re-run `npm run auth` weekly.
    - **Publish the app (Publishing status → "In production").** This matters: apps left in **Testing** get
      refresh tokens that **expire after 7 days** for non-basic scopes, and the app would silently stop working
      every week. In production, tokens don't have that 7-day expiry.
@@ -309,7 +314,7 @@ server's `.env`, then `docker compose up -d` (recreates the backend with the new
 ## 13. Privacy policy
 
 *Last updated: 2026-10-30.* College Expense Tracker is a personal, self-hosted app run by its owner for their own
-use. This section is the app's privacy policy and is the page to link from the Google OAuth consent screen.
+use. This section is the app's privacy policy and is mirrored at [docs/privacy.html](docs/privacy.html), the page linked from the Google OAuth consent screen.
 
 - **What it accesses:** only the owner's own Google Sheet (to read the table and append expense rows) and a single
   Google Drive folder the app creates (`drive.file` scope, so it can't see any other Drive file).
