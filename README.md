@@ -76,6 +76,9 @@ Do this on your Mac, in a browser signed into the Google account that owns the s
 3. **OAuth consent screen** (APIs & Services → OAuth consent screen / Google Auth Platform):
    - User type **External**; app name e.g. "College Expense Tracker"; your email as support/developer contact.
    - Add scopes: `.../auth/spreadsheets` and `.../auth/drive.file`.
+   - Branding: Google requires an **app homepage URL** and a **privacy policy URL** to publish an External app
+     (terms of use and logo are optional; skip the logo). Any public URL works, e.g. the repo page and a link to
+     the *Privacy policy* section (13) below. Google does not review these for unverified personal apps.
    - **Publish the app (Publishing status → "In production").** This matters: apps left in **Testing** get
      refresh tokens that **expire after 7 days** for non-basic scopes, and the app would silently stop working
      every week. In production, tokens don't have that 7-day expiry.
@@ -302,3 +305,19 @@ server's `.env`, then `docker compose up -d` (recreates the backend with the new
 - Phase two (not built): recent-expense history / `GET /api/expenses`, spending summaries, duplicate-warning UI
   based on date+amount, non-grocery categories, offline queue.
 - Single instance by design: the in-process lock that serialises sheet writes assumes one backend container.
+
+## 13. Privacy policy
+
+*Last updated: 2026-10-30.* College Expense Tracker is a personal, self-hosted app run by its owner for their own
+use. This section is the app's privacy policy and is the page to link from the Google OAuth consent screen.
+
+- **What it accesses:** only the owner's own Google Sheet (to read the table and append expense rows) and a single
+  Google Drive folder the app creates (`drive.file` scope, so it can't see any other Drive file).
+- **What it stores:** receipt photos in that Drive folder, and expense rows in that Sheet. Both stay in the
+  owner's Google account. The OAuth refresh token and client secret live only in the owner's `.env` on their own
+  machines.
+- **Sharing:** no data is sold, shared with third parties, or used for advertising. No analytics or tracking.
+  Receipt files are viewable by anyone with their link (see section 8); the Sheet and folder are not made public.
+- **Retention and deletion:** data stays until the owner deletes it from Google Drive/Sheets. Access can be revoked
+  any time at <https://myaccount.google.com/permissions>.
+- **Contact:** the developer contact email on the OAuth consent screen.
